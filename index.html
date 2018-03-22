@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Blockly Demo: Fixed Blockly</title>
+    <script src="./js/blockly_compressed.js"></script>
+    <script src="./js/blocks_compressed.js"></script>
+    <script src="./generators/js/javascript_compressed.js"></script>
+    <script src="./msg/js/zh-hans.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #fff;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-weight: normal;
+            font-size: 140%;
+            text-align: center;
+        }
+
+        table {
+            height: 100%;
+            width: 100%;
+        }
+
+        #blocklyArea {
+            height: 99%;
+            background: #fc9;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td id="blocklyArea">
+        </td>
+    </tr>
+</table>
+
+<div id="blocklyDiv" style="position: absolute"></div>
+
+<xml id="toolbox" style="display: none">
+    <category name="Control" colour="210">
+        <block type="controls_if"></block>
+        <block type="controls_if">
+            <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+            <mutation elseif="1" else="1"></mutation>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for"></block>
+    </category>
+    <sep></sep>
+    <category name="Logic" colour="120">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+    </category>
+    <sep></sep>
+    <category name="Math" colour="88">
+        <block type="math_number"></block>
+        <block type="math_arithmetic"></block>
+        <block type="math_single"></block>
+        <block type="math_trig"></block>
+        <block type="math_constant"></block>
+        <block type="math_number_property"></block>
+        <block type="math_round"></block>
+        <block type="math_on_list"></block>
+        <block type="math_modulo"></block>
+        <block type="math_constrain">
+            <value name="LOW">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+            <value name="HIGH">
+                <block type="math_number">
+                    <field name="NUM">100</field>
+                </block>
+            </value>
+        </block>
+        <block type="math_random_int">
+            <value name="FROM">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+            <value name="TO">
+                <block type="math_number">
+                    <field name="NUM">100</field>
+                </block>
+            </value>
+        </block>
+        <block type="math_random_float"></block>
+    </category>
+    <sep></sep>
+    <category name="Text" colour="160">
+        <block type="text"></block>
+        <block type="text_length"></block>
+        <block type="text_print"></block>
+    </category>
+    <sep></sep>
+    <category name="Variables" colour="330" custom="VARIABLE"></category>
+    <sep></sep>
+    <category name="Functions" colour="290" custom="PROCEDURE"></category>
+</xml>
+
+<script>
+    var blocklyArea = document.getElementById('blocklyArea');
+    var blocklyDiv = document.getElementById('blocklyDiv');
+    var demoWorkspace = Blockly.inject(blocklyDiv,
+        {
+            media: './media/',
+            toolbox: document.getElementById('toolbox'),
+            grid:
+                {
+                    spacing: 20,
+                    length: 1,
+                    colour: '#888',
+                    snap: true
+                },
+            zoom:
+                {
+                    controls: true,
+                    wheel: true,
+                    startScale: 1.0,
+                    maxScale: 3,
+                    minScale: 0.5,
+                    scaleSpeed: 1.2
+                }
+        });
+    var onresize = function(e) {
+        var element = blocklyArea;
+        var x = 0;
+        var y = 0;
+        do {
+            x += element.offsetLeft;
+            y += element.offsetTop;
+            element = element.offsetParent;
+        } while (element);
+        blocklyDiv.style.left = x + 'px';
+        blocklyDiv.style.top = y + 'px';
+        blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+        blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+    };
+    window.addEventListener('resize', onresize, false);
+    onresize();
+    Blockly.svgResize(demoWorkspace);
+</script>
+</body>
+</html>
