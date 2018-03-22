@@ -40,8 +40,9 @@
 <body>
 <table>
     <tr>
-        <td id="blocklyArea">
-        </td>
+        <td id="blocklyArea"></td>
+        <textarea id="codeArea"></textarea>
+
     </tr>
 </table>
 
@@ -120,7 +121,7 @@
 <script>
     var blocklyArea = document.getElementById('blocklyArea');
     var blocklyDiv = document.getElementById('blocklyDiv');
-    var demoWorkspace = Blockly.inject(blocklyDiv,
+    var workspace = Blockly.inject(blocklyDiv,
         {
             media: './media/',
             toolbox: document.getElementById('toolbox'),
@@ -157,7 +158,17 @@
     };
     window.addEventListener('resize', onresize, false);
     onresize();
-    Blockly.svgResize(demoWorkspace);
+    Blockly.svgResize(workspace);
+
+    workspace.addChangeListener(generatorCode);
+    function generatorCode(primaryEvent) {
+
+         if (primaryEvent.type == Blockly.Events.UI) {
+             return;  // Don't mirror UI events.
+         }
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        document.getElementById('codeArea').value = code;
+    }
 </script>
 </body>
 </html>
